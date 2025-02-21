@@ -32,13 +32,3 @@ RUN npm --version
 WORKDIR /src
 ADD . /src/storage
 RUN chown -R www-data:www-data /src/storage
-
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -g $GID appgroup && \
-    useradd -m -u $UID -g appgroup appuser
-
-# アプリケーションのコピー
-## COPY --chown=appuser:appgroup app /usr/src/app
-# 作成したユーザーで実行
-USER appuser
