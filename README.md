@@ -16,7 +16,7 @@ http://localhost
 ### appサーバーのコンソールに入る
 ### rootで入ること。
 
-appにrootで入る
+techup-appにrootで入る
 
 > docker compose exec -it --user root techup-app bash
 
@@ -50,6 +50,11 @@ mv: cannot move '_tmp/vendor' to './vendor': Device or resource busy
 # chmod -R guo+w storage
 # php artisan storage:link
 ```
+```
+techup-appコンテナ内で行う
+
+# chown -R 1000:1000 .
+```
 
 ##.env 編集
 ```
@@ -68,26 +73,49 @@ DB_PORT=3306
 DB_DATABASE=techup_db
 DB_USERNAME=root
 DB_PASSWORD=root
+
 ```
+
+> docker compose down
+> 
+> docker compose up -d --build
+> 
+> docker compose exec -it --user root techup-app bash
+> 
+$ composer install
+
+$ npm install
+
+
+場合により、docker app再起動
+## docker 停止
+docker-compose stop
+
+docker compose up -d
+
 ```
 # php artisan migrate
 ```
 
 
+
 # 補足
-## Linuxからは、にしてすべて権限にしておく
+## Linuxからは、以下にユーザ、グループの権限を設定しておく
 sudo chown -R 1000:1000 node_modules
 
 sudo apt update
 
-sudo mkdir vendor/doctrine
+dockerコンテナ起動
+> docker compose up -d
+
+リビルドと起動
+> docker compose up -d --build
+
+停止
+> docker compose down
 
 ## docker 停止
-docker-compose stop
-
-docker-compose down
-docker 開始
-docker compose up -d
+> docker-compose stop
 
 
 
@@ -99,5 +127,38 @@ $ npm install
 # Viteを起動する
 $ npm run dev
 
+## vite.config.js 追加してポーリングモードで動作確認
+```aiignore
+
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+    server: {
+        host: true,
+        hmr: {
+            host: 'localhost',
+        },
+        watch: {
+            usePolling: true,
+        },
+    },
+});
+
+```
+app.css 記述
+```aiignore
+.text-xl{
+    color: blue;
+}
+```
+
 参考URL
 <a href="https://qiita.com/hitotch/items/2e816bc1423d00562dc2">Laravel 11 の開発環境をdocker</a>
+
