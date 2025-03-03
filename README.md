@@ -26,22 +26,12 @@ docker compose exec techup-app bash
 
 ```
 # cd /src
-# mkdir _tmp
-# cd _tmp
+# mkdir techup_app
+# cd techup_app
 # composer create-project "laravel/laravel=11.*" . --prefer-dist
 ```
 ```
-# cd /src
-# mv _tmp/* ./
-
-mv: cannot move '_tmp/vendor' to './vendor': Device or resource busy
-は無視してOK
-
-# mv _tmp/.* ./
-# rm _tmp -rf
-```
-```
-# cd /src
+# cd /src/techup_app
 # composer install
 # npm install
 ```
