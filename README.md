@@ -25,13 +25,10 @@ or
 docker compose exec techup-app bash
 
 ```
-# cd /src
-# mkdir techup_app
-# cd techup_app
+# cd /var/www
 # composer create-project "laravel/laravel=11.*" . --prefer-dist
 ```
 ```
-# cd /src/techup_app
 # composer install
 # npm install
 ```
@@ -86,10 +83,6 @@ docker-compose stop
 
 docker compose up -d
 
-```
-# php artisan migrate
-```
-
 
 
 # 補足
@@ -112,8 +105,6 @@ dockerコンテナ起動
 
 
 
-都度実行しないように設定した
-$ cd /src
 $ composer install
 $ npm install
 
