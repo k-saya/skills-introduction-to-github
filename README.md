@@ -65,6 +65,9 @@ DB_USERNAME=root
 DB_PASSWORD=root
 
 ```
+```
+php artisan migrate
+```
 
 > docker compose down
 > 
