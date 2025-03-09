@@ -143,6 +143,42 @@ app.css 記述
 }
 ```
 
+以下のエラーがでた場合
+```aiignore
+Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:3306 -> 0.0.0.0:0: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+```
+
+```
+ docker compose down
+```
+
+```
+Windows の場合（PowerShell またはコマンドプロンプト）
+
+netstat -ano | findstr :3306
+
+TCP    0.0.0.0:3306     0.0.0.0:0       LISTENING       12345
+
+12345 の部分が プロセスID (PID) です。
+そのプロセスを停止する
+
+taskkill /PID 12345 /F
+```
+
+```
+ポート 3306 を使っているプロセスを確認
+
+lsof -i :3306
+
+mysqld  1234 user   10u  IPv4 0x12345678      0t0  TCP *:3306 (LISTEN)
+
+12345 の部分が プロセスID (PID) です。
+そのプロセスを停止する
+kill -9 1234
+
+```
+
+
 参考URL
 <a href="https://qiita.com/hitotch/items/2e816bc1423d00562dc2">Laravel 11 の開発環境をdocker</a>
 
