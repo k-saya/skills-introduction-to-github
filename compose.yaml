@@ -43,3 +43,15 @@ services:
     container_name: "techup-redis"
     ports:
       - 16379:6379
+
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - techup-mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=techup-mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "3001:80"

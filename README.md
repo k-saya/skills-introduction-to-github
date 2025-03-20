@@ -59,7 +59,7 @@ DB_HOST=techup-mysql
 DB_PORT=3306
 DB_DATABASE=techup_db
 DB_USERNAME=root
-DB_PASSWORD=root
+DB_PASSWORD=testtest
 
 ```
 ```
@@ -79,6 +79,7 @@ $ npm install
 
 場合により、docker app再起動
 ## docker 停止
+
 docker-compose stop
 
 docker compose up -d
@@ -86,24 +87,29 @@ docker compose up -d
 
 
 # 補足
-## Linuxからは、以下にユーザ、グループの権限を設定しておく
+### Linuxからは、以下にユーザ、グループの権限を設定しておく
 sudo chown -R 1000:1000 node_modules
 
 sudo apt update
 
-dockerコンテナ起動
+### dockerコンテナ起動
 > docker compose up -d
 
-リビルドと起動
+### リビルドと起動
 > docker compose up -d --build
 
-停止
+### 停止
 > docker compose down
 
-## docker 停止
+### docker 停止
 > docker-compose stop
 
+### mysql コンテナに入る
+>  docker compose exec -it --user root techup-mysql bash
 
+mysql -h 127.0.0.1 -P 3306 -u root -p
+
+docker compose exec techup-app bash
 
 $ composer install
 $ npm install
@@ -181,4 +187,25 @@ kill -9 1234
 
 参考URL
 <a href="https://qiita.com/hitotch/items/2e816bc1423d00562dc2">Laravel 11 の開発環境をdocker</a>
+
+# phpmyadminの設定
+ymlに以下を追加
+
+```
+phpmyadmin:
+image: phpmyadmin
+depends_on:
+- techup-mysql
+environment:
+- PMA_ARBITRARY=1
+- PMA_HOSTS=techup-mysql
+- PMA_USER=root
+- PMA_PASSWORD=mysql
+ports:
+- "3001:80"
+```
+phpmyadmin接続先
+
+http://localhost:3001/
+
 
