@@ -33,7 +33,7 @@ services:
     volumes:
       - ./docker/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=techup_db
     ports:
       - 3306:3306
