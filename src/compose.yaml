@@ -1,0 +1,57 @@
+services:
+  techup-nginx:
+    container_name: "techup-nginx"
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - techup-app
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www
+
+  techup-app:
+    container_name: "techup-app"
+    build:
+      context: ./docker/php
+    depends_on:
+      - techup-mysql
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/var/www
+      - /src/node_modules
+      - /src/vendor
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/nginx/logs:/var/log/nginx
+    working_dir: /var/www
+
+  techup-mysql:
+    image: mysql:8.0.37
+    command: --max_allowed_packet=32505856
+    container_name: "techup-mysql"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=techup_db
+    ports:
+      - 3306:3306
+
+  techup-redis:
+    image: redis:alpine
+    container_name: "techup-redis"
+    ports:
+      - 16379:6379
+
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - techup-mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=techup-mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "3001:80"
