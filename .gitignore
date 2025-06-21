@@ -1,5 +1,19 @@
 
-/.idea/
-/docker/.idea/
-/docker/mysql/
-/src/
+# 依存ファイル（ローカルに再生成できる）
+/vendor
+/node_modules
+
+# 環境設定や機密ファイル
+.env
+
+# キャッシュや一時ファイル
+/storage
+/bootstrap/cache
+.phpunit.result.cache
+
+# OS・エディタごとの不要ファイル
+.DS_Store
+Thumbs.db
+.idea
+*.log
+
