@@ -29,7 +29,12 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
-WORKDIR /src
-ADD . /src/storage
-RUN chown -R www-data:www-data /src/storage
-ENTRYPOINT [ "bash", "-c", "composer install; npm install; exec php-fpm" ]
+WORKDIR /var/www
+COPY . .
+RUN composer install
+RUN npm install
+RUN chown -R www-data:www-data storage
+
+COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
+
+ENTRYPOINT [ "bash", "-c", "exec php-fpm" ]
